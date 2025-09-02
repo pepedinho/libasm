@@ -1,6 +1,7 @@
 NAME = libasm.a
 
 SRCS = ft_strlen.s\
+			 ft_strcpy.s\
 
 # Concaténation des fichiers source de base et supplémentaires
 ALL_SRCS = $(SRCS) $(BONUS_SRCS)
