@@ -4,6 +4,7 @@ global ft_strcmp
 
 section .text
   ft_strcmp:
+    push rbx
     xor rbx, rbx; rbx = 0
     ;rdi = dest, rsi = src
  
@@ -17,10 +18,12 @@ section .text
     jmp .loop ; je refais un tour
 
   .done: 
+    pop rbx
     mov rax, 0
     ret
 
   .err:
-    mov rax, [rdi + rbx] 
+    mov rax, [rdi + rbx]
     sub rax, [rsi + rbx] ; dest = dest - src
+    pop rbx
     ret
