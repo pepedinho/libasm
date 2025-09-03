@@ -4,6 +4,7 @@ global ft_strcpy
 
 section .text
   ft_strcpy:
+    push rbx ; sauvegarde de la valeur dans la stack
     xor rbx, rbx; rbx = 0
     ;rdi = dest, rsi = src
  
@@ -18,4 +19,5 @@ section .text
   .done: 
     mov byte [rdi + rbx], 0
     mov rax, rdi
+    pop rbx ; on remet la valeur
     ret

@@ -3,6 +3,7 @@ global ft_strlen
 
 section .text
   ft_strlen:
+    push rbx
     xor rbx, rbx
    
   len_loop:
@@ -14,5 +15,6 @@ section .text
 
 
   len_done:
+    pop rbx
     mov rax, rbx
     ret
