@@ -1,1 +1,3 @@
 *.o
+libasm.a
+test

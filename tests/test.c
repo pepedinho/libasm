@@ -19,6 +19,10 @@ int assert_str(const char *a, const char *b) {
   return strcmp(a, b) == 0;
 }
 
+int assert_cmp(int a, int b) {
+  return a == 0 && b == 0;
+}
+
 
 void strlen_tests() {
 
@@ -61,38 +65,38 @@ void strcpy_tests() {
     printf("\n");
 }
 
-// void strcmp_tests() {
-//   printf("--------[STRCMP_TESTS]--------\n");
-//   const char *tests[] = {
-//         "",
-//         "a",
-//         "hello",
-//         "oui je test",
-//         "longue chaine avec beaucoup de caracteres...",
-//         NULL
-//     };
-//
-//     const char *tests2[] = {
-//         "",
-//         "a",
-//         "heilo",
-//         "oui je test",
-//         "longue/chaine avec beaucoup de caracteres...",
-//         NULL
-//     };
-//     for (int i = 0; tests[i] != NULL; i++) {
-//         int mine = ft_strcmp(tests[i], tests2[i]);
-//         int real = strcmp(tests[i], tests2[i]);
-//         printf("%s: ", tests[i]);
-//         ASSERT(assert_int(mine, real));
-//     }
-//     printf("\n");
-// }
+void strcmp_tests() {
+  printf("--------[STRCMP_TESTS]--------\n");
+  const char *tests[] = {
+        "",
+        "a",
+        "hello",
+        "oui je test",
+        "longue chaine avec beaucoup de caracteres...",
+        NULL
+    };
+
+    const char *tests2[] = {
+        "",
+        "a",
+        "heilo",
+        "oui je test",
+        "longue/chaine avec beaucoup de caracteres...",
+        NULL
+    };
+    for (int i = 0; tests[i] != NULL; i++) {
+        int mine = ft_strcmp(tests[i], tests2[i]);
+        int real = strcmp(tests[i], tests2[i]);
+        printf("%s: ", tests[i]);
+        ASSERT(assert_int(mine, real));
+    }
+    printf("\n");
+}
 
 
 int main(void) {
     strlen_tests();
     strcpy_tests();
-    // strcmp_tests();
+    strcmp_tests();
     return 0;
 }
