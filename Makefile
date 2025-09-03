@@ -1,6 +1,8 @@
 NAME = libasm.a
 
 SRCS = ft_strlen.s\
+			 ft_strcpy.s\
+			 # ft_strcmp.s\
 
 # Concaténation des fichiers source de base et supplémentaires
 ALL_SRCS = $(SRCS) $(BONUS_SRCS)
@@ -37,6 +39,8 @@ fclean: clean
 
 re: fclean all
 
-#gcc -Wall -Wextra -g tests/ft_strlen_test.c -L. -lasm -o test_strlen
+tests: all
+	gcc -Wall -Wextra -g tests/test.c -L. -lasm -o test -g3
+	./test
 
-.PHONY: all bonus clean fclean re
+.PHONY: all bonus clean fclean re tests
