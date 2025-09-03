@@ -117,11 +117,11 @@ void test_write() {
     }
     close(fd);
     fd = open("/dev/null", O_RDONLY);
-    int mine = ft_write(fd, "ca dois pas marcher", 19);
-    perror("mine errno");
-    int real = write(fd, "ca dois pas marcher", 19);
-    perror("real errno");
     printf("write_in_rdonly_file: ");
+    int mine = ft_write(fd, "ca dois pas marcher", 19);
+    perror("  |__mine errno");
+    int real = write(fd, "ca dois pas marcher", 19);
+    perror("  |__real errno");
     ASSERT(assert_int(mine, real));
     close(fd);
     printf("\n");
@@ -148,11 +148,19 @@ void test_read() {
   (close(mine_fd), close(real_fd));
   mine_fd = open("./tests/read_test_mine.txt", O_WRONLY);
   real_fd = open("./tests/read_test_real.txt", O_WRONLY);
-  mine = ft_read(mine_fd, mine_buf, 15);
-  perror("mine errno");
-  real = ft_read(real_fd, real_buf, 15);
-  perror("real errno");
   printf("read_in_wronly_file: ");
+  mine = ft_read(mine_fd, mine_buf, 15);
+  perror("\tmine errno");
+  real = ft_read(real_fd, real_buf, 15);
+  perror("\treal errno");
+  ASSERT(assert_int(mine, real));
+  (close(mine_fd), close(real_fd));
+  
+  printf("read_in_invalid fd: ");
+  mine = ft_read(mine_fd, mine_buf, 15);
+  perror("  |__mine errno");
+  real = ft_read(real_fd, real_buf, 15);
+  perror("  |__real errno");
   ASSERT(assert_int(mine, real));
   (close(mine_fd), close(real_fd));
   printf("\n");
