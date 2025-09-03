@@ -8,6 +8,7 @@ size_t  ft_strlen(const char *str);
 char    *ft_strcpy(char *dest, const char *src);
 int     ft_strcmp(const char *s1, const char *s2);
 ssize_t ft_write(int fd, const void *buf, size_t count);
+ssize_t ft_read(int fd, void *buf, size_t count);
 
 #define ASSERT(a) { \
   if (a) { printf("ok\n"); } else { printf("failed\n");} \
@@ -126,11 +127,43 @@ void test_write() {
     printf("\n");
 }
 
+void test_read() {
+  int fd = open("/dev/null", O_WRONLY);
+  printf("--------[READ_TESTS]--------\n");
+
+  int  mine_fd = open("./tests/read_test_mine.txt", O_RDONLY);
+  int  real_fd = open("./tests/read_test_real.txt", O_RDONLY);
+  char mine_buf[20] = {0};
+  char real_buf[20] = {0};
+
+  int mine = ft_read(mine_fd, mine_buf, 15);
+  int real = ft_read(real_fd, real_buf, 15);
+
+  printf("read_buf_result: ");
+  ASSERT(assert_str(mine_buf, real_buf));
+
+  printf("read_return_value: ");
+  ASSERT(assert_int(mine, real));
+
+  (close(mine_fd), close(real_fd));
+  mine_fd = open("./tests/read_test_mine.txt", O_WRONLY);
+  real_fd = open("./tests/read_test_real.txt", O_WRONLY);
+  mine = ft_read(mine_fd, mine_buf, 15);
+  perror("mine errno");
+  real = ft_read(real_fd, real_buf, 15);
+  perror("real errno");
+  printf("read_in_wronly_file: ");
+  ASSERT(assert_int(mine, real));
+  (close(mine_fd), close(real_fd));
+  printf("\n");
+}
+
 
 int main(void) {
     strlen_tests();
     strcpy_tests();
     strcmp_tests();
     test_write();
+    test_read();
     return 0;
 }
