@@ -11,7 +11,7 @@ section .text
     jge .done ; >=
     mov rdi, rax ; on stock la valeur de rax dans rdi
     neg rdi ; rdi = -rax
-    call __errno_location ; __errno_location renvoie l'adrress de errno dans rax
+    call __errno_location wrt ..plt; __errno_location renvoie l'adrress de errno dans rax
     mov dword [rax], edi ; on assigne la -valeur retourner par sys_write a errno
     mov rax, -1
   .done:

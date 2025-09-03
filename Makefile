@@ -42,7 +42,7 @@ fclean: clean
 re: fclean all
 
 tests: all
-	gcc -no-pie -Wall -Wextra -g tests/test.c -L. -lasm -o test -g3
+	gcc -Wall -Wextra -g tests/test.c -L. -lasm -o test -g3
 	./test
 
 .PHONY: all bonus clean fclean re tests
