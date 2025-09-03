@@ -15,6 +15,6 @@ section .text
 
 
   len_done:
-    pop rbx
     mov rax, rbx
+    pop rbx
     ret
