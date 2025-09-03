@@ -117,9 +117,9 @@ void test_write() {
     close(fd);
     fd = open("/dev/null", O_RDONLY);
     int mine = ft_write(fd, "ca dois pas marcher", 19);
-    perror(NULL);
+    perror("mine errno");
     int real = write(fd, "ca dois pas marcher", 19);
-    perror(NULL);
+    perror("real errno");
     printf("write_in_rdonly_file: ");
     ASSERT(assert_int(mine, real));
     close(fd);
