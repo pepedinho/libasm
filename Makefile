@@ -53,6 +53,6 @@ dtests: all
 
 vtests: all
 	gcc -Wall -Wextra -g tests/test.c -L. -lasm -o test -g3
-	valgrind --leak-check=full --show-leak-kinds=all test
+	valgrind --leak-check=full --show-leak-kinds=all ./test
 
 .PHONY: all bonus clean fclean re tests

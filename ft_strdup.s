@@ -25,7 +25,10 @@ section .text
     ret
 
   .fail:
-      add     rsp, 8            ; on simule un pop (realignement de la stack)
+      add     rsp, 8          ; on simule un pop (realignement de la stack)
+      call __errno_location wrt ..plt; __errno_location renvoie l'adrress de errno dans rax
+      mov dword [rax], edi    ; on assigne la -valeur retourner par sys_write a errno
+
   .null:
       xor     rax, rax
       ret

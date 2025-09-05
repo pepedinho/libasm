@@ -4,6 +4,15 @@
 #include <string.h>
 #include <unistd.h>
 
+#define RESET "\033[0m"
+#define RED "\033[31m"
+#define GREEN "\033[32m"
+#define YELLOW "\033[33m"
+#define BLUE "\033[34m"
+#define MAGENTA "\033[35m"
+#define CYAN "\033[36m"
+#define BOLD "\033[1m"
+
 size_t ft_strlen(const char *str);
 char *ft_strcpy(char *dest, const char *src);
 int ft_strcmp(const char *s1, const char *s2);
@@ -14,9 +23,9 @@ char *ft_strdup(const char *s);
 #define ASSERT(a)                                                              \
   {                                                                            \
     if (a) {                                                                   \
-      printf("ok\n");                                                          \
+      printf(GREEN "✔ ok" RESET "\n");                                         \
     } else {                                                                   \
-      printf("failed\n");                                                      \
+      printf(RED "✘ failed" RESET "\n");                                       \
     }                                                                          \
   }
 
@@ -53,33 +62,35 @@ void strcpy_tests() {
                          NULL};
   for (int i = 0; tests[i] != NULL; i++) {
     char *dest = malloc(sizeof(char) * strlen(tests[i]) + 1);
-    strcpy(dest, tests[i]);
+    ft_strcpy(dest, tests[i]);
     printf("%s: ", tests[i]);
     ASSERT(assert_str(dest, tests[i]));
     free(dest);
   }
+
+  printf("too_big_malloc: ");
+  char *dest = malloc(sizeof(char) * strlen(tests[4]) + 10);
+  ft_strcpy(dest, tests[4]);
+  ASSERT(assert_str(dest, tests[4]));
+  free(dest);
   printf("\n");
 }
 
 void strcmp_tests() {
   printf("--------[STRCMP_TESTS]--------\n");
-  const char *tests[] = {"",
-                         "a",
-                         "hello",
-                         "oui je test",
-                         "longue chaine avec beaucoup de caracteres...",
-                         NULL};
+  const char *tests[] = {
+      "",      "a",           "hello",
+      "jello", "oui je test", "longue chaine avec beaucoup de caracteres...",
+      NULL};
 
-  const char *tests2[] = {"",
-                          "a",
-                          "heilo",
-                          "oui je test",
-                          "longue/chaine avec beaucoup de caracteres...",
-                          NULL};
+  const char *tests2[] = {
+      "",      "a",           "heilo",
+      "hello", "oui je tesx", "longue/chaine avec beaucoup de caracteres...",
+      NULL};
   for (int i = 0; tests[i] != NULL; i++) {
     int mine = ft_strcmp(tests[i], tests2[i]);
     int real = strcmp(tests[i], tests2[i]);
-    printf("%s: ", tests[i]);
+    printf("%s: m %d | r %d", tests[i], mine, real);
     ASSERT(assert_int(mine, real));
   }
   printf("\n");
