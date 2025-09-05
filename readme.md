@@ -14,6 +14,7 @@ Currently, the following functions are available:
 - **ft_strcmp.s**: compares two strings (equivalent to `strcmp`).
 - **ft_write.s**: writes data to a file descriptor (equivalent to `write`).
 - **ft_read.s**: read data from a file descriptor (equivalent to `read`).
+- **ft_strdup.s**: duplicate a string into a new allocated string (equivalent to `strdup`).
 
 ---
 
@@ -35,3 +36,4 @@ Here are some useful resources to improve your understanding:
 - Always preserve non-volatile registers (`rbx`, `rbp`, `r12–r15`).
 
 ---
+
