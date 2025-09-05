@@ -5,6 +5,7 @@ SRCS = ft_strlen.s\
 			 ft_strcmp.s\
 			 ft_write.s\
 			 ft_read.s\
+			 ft_strdup.s\
 
 # Concaténation des fichiers source de base et supplémentaires
 ALL_SRCS = $(SRCS) $(BONUS_SRCS)
@@ -45,5 +46,13 @@ re: fclean all
 tests: all
 	gcc -Wall -Wextra -g tests/test.c -L. -lasm -o test -g3
 	./test
+
+dtests: all
+	gcc -Wall -Wextra -g tests/test.c -L. -lasm -o test -g3
+	gdb test
+
+vtests: all
+	gcc -Wall -Wextra -g tests/test.c -L. -lasm -o test -g3
+	valgrind --leak-check=full --show-leak-kinds=all ./test
 
 .PHONY: all bonus clean fclean re tests
