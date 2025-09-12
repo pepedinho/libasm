@@ -13,12 +13,13 @@
 #define CYAN "\033[36m"
 #define BOLD "\033[1m"
 
-size_t ft_strlen(const char *str);
-char *ft_strcpy(char *dest, const char *src);
-int ft_strcmp(const char *s1, const char *s2);
+size_t  ft_strlen(const char *str);
+char    *ft_strcpy(char *dest, const char *src);
+int     ft_strcmp(const char *s1, const char *s2);
 ssize_t ft_write(int fd, const void *buf, size_t count);
 ssize_t ft_read(int fd, void *buf, size_t count);
-char *ft_strdup(const char *s);
+char    *ft_strdup(const char *s);
+int     ft_atoi_base(char *str, char *base);
 
 #define ASSERT(a)                                                              \
   {                                                                            \
@@ -182,6 +183,55 @@ void strdup_tests() {
   printf("\n");
 }
 
+#include <assert.h>
+void ft_atoi_base_tests() {
+  printf("--------[ATOI_BASE_TESTS]--------\n");
+    // Base décimale
+    char *base10 = "0123456789";
+
+    int oui = ft_atoi_base("42", base10);
+    printf("debug: ft_atoi_base(42): %d\n", oui);
+
+    // Test chiffres simples
+    assert(ft_atoi_base("0", base10) == 0);
+    assert(ft_atoi_base("42", base10) == 42);
+    assert(ft_atoi_base("-42", base10) == -42);
+    assert(ft_atoi_base("+17", base10) == 17);
+
+    // Chiffres invalides (hors base) doivent renvoyer 0
+    assert(ft_atoi_base("a", base10) == 0);
+    assert(ft_atoi_base("9a", base10) == 9); // s’arrête au premier caractère invalide
+
+    // Base hexadécimale
+    char *base16 = "0123456789abcdef";
+
+    assert(ft_atoi_base("1a", base16) == 26);
+    assert(ft_atoi_base("A", base16) == 10); // si ta fonction gère majuscules aussi
+    assert(ft_atoi_base("-F", base16) == -15);
+
+    // Base binaire
+    char *base2 = "01";
+    assert(ft_atoi_base("101", base2) == 5);
+    assert(ft_atoi_base("-101", base2) == -5);
+
+    // Base octale
+    char *base8 = "01234567";
+    assert(ft_atoi_base("7", base8) == 7);
+    assert(ft_atoi_base("10", base8) == 8);
+
+    // Chaîne vide ou NULL
+    assert(ft_atoi_base("", base10) == 0);
+    assert(ft_atoi_base(NULL, base10) == 0);
+    assert(ft_atoi_base("123", NULL) == 0);
+
+    // Chiffres + lettres combinés
+    char *base16_mix = "0123456789ABCDEF";
+    assert(ft_atoi_base("1F", base16_mix) == 31);
+    assert(ft_atoi_base("-1f", base16_mix) == -31);
+
+    printf("Tous les tests ont réussi !\n");
+}
+
 int main(void) {
   strlen_tests();
   strcpy_tests();
@@ -189,5 +239,6 @@ int main(void) {
   test_write();
   test_read();
   strdup_tests();
+  ft_atoi_base_tests();
   return 0;
 }

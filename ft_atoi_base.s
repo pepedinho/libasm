@@ -23,11 +23,11 @@ section .text:
     jne   .check_plus ; on verifie si on est sur un '+'
     mov   cl, 1       ; si == '-' neg = 1
     inc   rdi
-    jne   .loop_on_sign ; if != '+' '-' on sort de la boucle
+    jmp   .loop_on_sign ; if != '+' '-' on sort de la boucle
 
 
   .check_plus:
-    cmp,  al '+'
+    cmp   al, '+'
     jne   .loop   ; si != '+' break
     inc   rdi
     jmp   .loop_on_sign
@@ -50,19 +50,39 @@ section .text:
     jl    .error    ; si < 0 il ne peux appartenir a aucune autre base donc error (jl == jump if less than 0)
     cmp   al, '9'
     jg    .alpha    ; si > 0 il peux appartenir a alpha ou caps_alpha donc on check (jg = jump if greater than 0)
-    
-    jmp   .num
+    jmp   .num      ; si dans la range alor on traite en tant que num
 
   .num:
-    ; TODO
+    movzx edx, al
+    sub   edx, '0'  ; str[i] - '0'
+    add   ebx, edx  ; res += res[i] - '0'
+
     jmp   .next
   
   .alpha:
-    ; TODO
+    cmp   al, 'a'
+    jl    .error    ; si < 0 il ne peux appartenir a aucune autre base donc error (jl == jump if less than 0)
+    cmp   al, 'z'
+    jg    .caps_alpha    ; si > 0 il peux appartenir a caps_alpha donc on check (jg = jump if greater than 0)
+    
+    movzx edx, al
+    sub   edx, 'a'  ; str[i] - 'a'
+    add   edx, 10 
+    add   ebx, edx  ; res += res[i] - 'a' + 10
+
     jmp   .next
 
   .caps_alpha:
-    ; TODO
+    cmp   al, 'A'
+    jl    .error    ; si < 0 il ne peux appartenir a aucune autre base donc error (jl == jump if less than 0)
+    cmp   al, 'Z'
+    jg    .error    ; si > 0 il ne peux appartenir a aucune autre base donc error (jg = jump if greater than 0)
+
+    movzx edx, al
+    sub   edx, 'A'  ; str[i] - 'A'
+    add   edx, 10
+    add   ebx, edx  ; res += res[i] - 'a' + 10
+
     jmp   .next
 
   .next: 
@@ -70,9 +90,15 @@ section .text:
     jmp   .loop
 
   .end:
-    pop rbx
-    ; TODO
+    test  cl, cl  ; check si neg == 0
+    jz    .no_neg
+    neg   rbx     ; res = -res
+  .no_neg:
+    mov   rax, rbx
+    pop   rbx
+    ret
 
   .error:
     mov rax, 0 ; return 0 
+    pop rbx
     ret
