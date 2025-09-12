@@ -48,6 +48,10 @@ tests: all
 	gcc -Wall -Wextra -g tests/test.c -L. -lasm -o test -g3
 	./test
 
+ftests: all
+	gcc -fsanitize=address -Wall -Wextra -g tests/test.c -L. -lasm -o test -g3
+	./test
+
 dtests: all
 	gcc -Wall -Wextra -g tests/test.c -L. -lasm -o test -g3
 	gdb test
